@@ -1,0 +1,65 @@
+{
+  "titulo": "Parálisis del sueño",
+  "salida": "paralisis_del_sueno.mp4",
+  "voz": "es-MX-JorgeNeural",
+  "velocidad": "-8%",
+  "tono": "-6Hz",
+  "escenas": [
+    {
+      "dibujo": "titulo",
+      "zoom": "in",
+      "texto": "¿Alguna vez despertaste en mitad de la noche... y no pudiste moverte?"
+    },
+    {
+      "dibujo": "dormitorio",
+      "zoom": "in",
+      "texto": "A mí me pasó a los diecinueve años. Abrí los ojos de golpe. La habitación estaba en silencio. Demasiado silencio."
+    },
+    {
+      "dibujo": "reloj",
+      "zoom": "in",
+      "texto": "El reloj de la mesita marcaba las tres y treinta y tres. Quise girarme, pero mi cuerpo no respondía. Ni un dedo. Ni un músculo."
+    },
+    {
+      "dibujo": "puerta",
+      "zoom": "pan",
+      "texto": "Solo podía mover los ojos. Y entonces lo noté: la puerta del cuarto, que siempre dejo cerrada, estaba entreabierta."
+    },
+    {
+      "dibujo": "figura_puerta",
+      "zoom": "in",
+      "texto": "En la oscuridad del pasillo había alguien. Alto. Demasiado delgado. Sin rostro. Una silueta más negra que la propia noche."
+    },
+    {
+      "dibujo": "figura_cama",
+      "zoom": "in",
+      "texto": "No escuché pasos. Pero cada vez que parpadeaba, estaba más cerca. Hasta que sentí cómo el colchón se hundía bajo su peso."
+    },
+    {
+      "dibujo": "presion",
+      "zoom": "in",
+      "texto": "Luego vino la presión en el pecho. Como si algo se sentara encima de mí. No podía respirar. Quise gritar... y no salió nada."
+    },
+    {
+      "dibujo": "ojos",
+      "zoom": "in",
+      "susto": true,
+      "texto": "Y entonces, a centímetros de mi cara... abrió los ojos."
+    },
+    {
+      "dibujo": "amanecer",
+      "zoom": "out",
+      "texto": "Desperté con la luz del sol. La puerta estaba cerrada. Me dije que fue un sueño. Que la ciencia lo explica: el cerebro despierta antes que el cuerpo."
+    },
+    {
+      "dibujo": "sabanas",
+      "zoom": "in",
+      "texto": "Pero hay algo que la ciencia no me explica. Por qué, al pie de mi cama, las sábanas tenían marcas de unos dedos largos. Demasiado largos."
+    },
+    {
+      "dibujo": "final",
+      "zoom": "in",
+      "texto": "Si alguna vez te pasa... no abras los ojos. ¿Te ha ocurrido? Cuéntamelo en los comentarios."
+    }
+  ]
+}
