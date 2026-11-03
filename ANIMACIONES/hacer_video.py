@@ -418,6 +418,7 @@ def main():
          "-i", os.path.join(trabajo, "audio.wav"),
          "-vf", "noise=alls=9:allf=t+u,vignette=PI/5,format=yuv420p",
          "-c:v", "libx264", "-preset", "medium", "-crf", "21", "-maxrate", "10M", "-bufsize", "20M",
+         "-af", "loudnorm=I=-14:TP=-1.5:LRA=11", "-ar", "48000",
          "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "-shortest", salida],
         stdin=subprocess.PIPE)
 
