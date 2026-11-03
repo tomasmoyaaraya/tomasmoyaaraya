@@ -1,32 +1,63 @@
-# ANIMACIONES – videos de terror animados con código
+# ANIMACIONES – videos de terror animados con código (estilo Shorts/TikTok)
 
-Pipeline propio (sin instaladores de terceros):
-**guion JSON → voz edge-tts → escenas dibujadas en Python → zoom lento + grano + viñeta + parpadeo → ambiente sonoro → subtítulos → MP4 1080p**.
+Pipeline propio, sin instaladores de terceros:
+**guion JSON → voz → escenas dibujadas y animadas en Python → cámara + efectos → música y SFX generados → subtítulos palabra por palabra → MP4**
 
 ## Instalar (una sola vez, Windows)
 1. Python 3.10+ (python.org, marca "Add to PATH").
-2. ffmpeg: `winget install Gyan.FFmpeg` (o descarga de gyan.dev y añade `bin` al PATH).
-3. `pip install edge-tts pillow numpy`
+2. ffmpeg: `winget install Gyan.FFmpeg`
+3. `pip install edge-tts piper-tts pillow numpy scipy`
 
 ## Usar
-Doble clic en `generar.bat` o, en una terminal dentro de esta carpeta:
+Doble clic en `generar.bat`, o en una terminal dentro de esta carpeta:
 
 ```
-python hacer_video.py guion_paralisis.json            # 1080p final
-python hacer_video.py guion_paralisis.json --rapido   # vista previa 720p
-python hacer_video.py guion_paralisis.json --motor espeak   # voz offline (requiere espeak-ng)
-python escenas.py                                     # PNG de todas las escenas en previas/
+python hacer_video.py guion_paralisis.json                       # vertical 1080x1920 (Shorts/TikTok/Reels)
+python hacer_video.py guion_paralisis.json --formato horizontal  # 1920x1080 para YouTube normal
+python hacer_video.py guion_paralisis.json --rapido              # vista previa a media resolución
+python hacer_video.py guion_paralisis.json --motor piper         # forzar voz offline
+python escenas.py                                                # PNG de todas las escenas en previas/
 ```
-El MP4 queda en `salidas\`. Los temporales en `trabajo\` (se pueden borrar).
+Resultado en `salidas\`. Temporales en `trabajo\` (se pueden borrar).
+
+### Voz
+`auto` prueba en orden: **edge-tts** (online, la más natural; marca el tiempo de cada palabra) →
+**Piper** (offline, neuronal; la primera vez descarga ~18 MB a `voces\`) → espeak-ng.
+
+## Qué lo hace "viral"
+- **Gancho en el segundo 1**: la imagen más fuerte + frase que obliga a seguir mirando + texto rojo arriba.
+- **Nunca hay silencio muerto**: música (drone + piano disonante), latidos que se aceleran, tic-tac,
+  crujidos, susurros, pasos, respiración; la música baja sola cuando habla el narrador.
+- **Subtítulos grandes palabra por palabra** con la palabra actual en amarillo y efecto "pop".
+- **Cortes cada 2–4 s** y cámara siempre en movimiento (zoom, paneo, golpes de zoom, temblor).
+- **Primera persona**: párpados que se abren al despertar y parpadeos (la figura se acerca en cada uno).
+- **Susto**: silencio → subida de tensión → flash, glitch RGB, temblor fuerte y golpe sonoro.
+- **Final en bucle**: termina en el mismo 3:33 con que empieza, para que el video se repita.
+- ~60 s: el punto dulce de retención en Shorts/TikTok.
 
 ## Hacer un video nuevo
-Copia `guion_paralisis.json`, cambia los textos y elige para cada escena:
-- `dibujo`: titulo, dormitorio, reloj, puerta, figura_puerta, figura_cama, presion, ojos, amanecer, sabanas, final
-- `zoom`: `in`, `out` o `pan` · `fuerza_zoom` (por defecto 0.12)
-- `susto: true` → flash blanco, temblor y golpe sonoro
-- `extra`: segundos adicionales de pausa tras la voz
+Copia `guion_paralisis.json` y edita `lineas`. Cada línea es una toma:
 
-Para dibujos nuevos, añade `def escena_<nombre>(w, h)` en `escenas.py`.
+| campo | qué hace |
+|---|---|
+| `texto` | lo que dice el narrador (vacío + `duracion` = toma sin voz) |
+| `dibujo` | escena: dormitorio, amanecer, reloj, reloj_cambia, puerta, puerta_abre, figura_puerta, figura_aparece, figura_cama, figura_acerca, presion, presion_baja, ojos, ojos_cerrados, ojos_abren, oscuridad, sabanas, sabanas_aparecen, titulo, final |
+| `zoom` | `[inicio, fin]` (1 = encuadre completo) |
+| `foco`, `fy` | `[inicio, fin]` posición horizontal/vertical del centro (0–1) → paneos |
+| `pantalla` | texto rojo grande arriba (`\n` = salto de línea) |
+| `musica` | normal, tension, baja, calma, silencio |
+| `sfx` | `[["nombre", cuándo, volumen, {opciones}]]` – cuándo: segundos, `"p0.5"` (mitad de la toma) o `"fin"`. Nombres: latido, tictac, crujido, pasos, susurro, respiracion, subida, golpe, braam, silbido |
+| `susto` | segundo dentro de la toma del susto (flash + glitch + temblor + golpe) |
+| `despertar` | párpados que se abren al empezar la toma |
+| `parpadeos` | `[0.33, 0.66]` parpadeos en esas fracciones de la toma |
+| `glitch` | `[[segundo, duración], …]` |
+| `golpe_zoom`, `temblor`, `tinte` | golpe de zoom al inicio · temblor 0–5 · `[r, g, b]` multiplicadores |
+| `pausa`, `pausa_antes`, `min` | silencio después / antes de la voz · duración mínima |
 
-Voces útiles de edge-tts: `es-MX-JorgeNeural`, `es-ES-AlvaroNeural`, `es-AR-TomasNeural`,
-`es-CL-LorenzoNeural`, `es-MX-DaliaNeural` (lista completa: `edge-tts --list-voices`).
+Para dibujos nuevos: `def escena_<nombre>(w, h)` (estática) o `def anim_<nombre>(w, h)` que
+devuelve `función(p, t) -> imagen` (animada) en `escenas.py`.
+
+Voces edge-tts útiles: `es-MX-JorgeNeural`, `es-ES-AlvaroNeural`, `es-AR-TomasNeural`,
+`es-CL-LorenzoNeural` (lista: `edge-tts --list-voices`).
+
+La fuente Inter Black (`fuentes/`) es de licencia libre OFL.
