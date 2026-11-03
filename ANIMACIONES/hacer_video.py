@@ -84,7 +84,7 @@ def generar_voz(texto, base, g, motor, trabajo):
         crudo += ".wav"
     filtro = "highpass=f=70,aecho=0.8:0.6:70|140:0.16|0.08"
     if usado == "espeak":  # baja el tono y le quita lo metálico
-        filtro = "aresample=48000,asetrate=42240,aresample=48000,atempo=1.08,lowpass=f=5200," + filtro
+        filtro = "aresample=48000,asetrate=42240,aresample=48000,atempo=1.17,lowpass=f=5200," + filtro
     wav = os.path.join(trabajo, base + ".wav")
     ff(["-i", os.path.basename(crudo), "-af", filtro, "-ar", "48000", "-ac", "2",
         os.path.basename(wav)], trabajo)
@@ -114,7 +114,7 @@ def render_clip(i, esc, dur, trabajo, w, h):
         f"zoompan=z='{z}':x='{x}':y='{y}':d=1:s={w}x{h}:fps={FPS}",
         # parpadeo de luz irregular
         "eq=brightness='-0.025+0.03*random(1)*gt(random(2),0.55)':eval=frame",
-        "noise=alls=16:allf=t+u",  # grano de película
+        "noise=alls=11:allf=t+u",  # grano de película
         "vignette=PI/4.5",
     ]
     if esc.get("susto"):
@@ -255,7 +255,7 @@ def main():
 
     print("[4/4] Render final…")
     ff(["-i", "video.mp4", "-i", "audio.wav", "-vf", "ass=subs.ass",
-        "-c:v", "libx264", "-preset", "medium", "-crf", "19", "-pix_fmt", "yuv420p",
+        "-c:v", "libx264", "-preset", "medium", "-crf", "22", "-maxrate", "8M", "-bufsize", "16M", "-pix_fmt", "yuv420p",
         "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", "-shortest", salida], trabajo)
     print(f"Listo -> {salida}")
 
